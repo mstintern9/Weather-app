@@ -1,0 +1,212 @@
+.container {
+  background-color: rgb(242, 242, 242);
+  height: 100vh;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  color: rgb(72, 72, 74);
+  overflow: hidden;
+}
+
+.firstContainer {
+  display: flex;
+  justify-content: center;
+  height: 2vh;
+  padding: 1vh;
+  margin-top: 4vh;
+  margin-bottom: 3vh;
+}
+
+.secondContainer {
+  background-color: white;
+  height: 79vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.firstRow {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  justify-content: space-around;
+  width: 172vh;
+  margin-left: 28vh;
+}
+
+.secondRow {
+  display: flex;
+  flex: 1;
+  justify-content: space-around;
+  width: 183vh;
+  margin-left: 22vh;
+}
+
+form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+input {
+  width: 45vh;
+  height: 3vh;
+  border: none;
+  border-radius: 0.9vh;
+  padding: 0.5vh;
+  font-size: 1.6vh;
+}
+
+input:focus {
+  outline: none;
+}
+
+button {
+  background-color: rgb(72, 72, 74);
+  color: white;
+  width: 8.5vh;
+  height: 4vh;
+  border-radius: 0.6vh;
+}
+
+button:hover {
+  background-color: rgba(72, 72, 74, 0.869);
+  cursor: pointer;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  margin-top: 3vh;
+}
+
+.date {
+  color: rgb(235, 110, 115);
+}
+
+.descriptionBox {
+  display: flex;
+  flex-direction: column;
+  border-left: 2px solid rgb(235, 110, 115);
+  padding-left: 2vh;
+}
+
+span {
+  display: flex;
+  gap: 0.9vh;
+}
+
+.map {
+  width: 98vh;
+  margin-right: -19vh;
+  padding: 2vh;
+  padding-right: 12vh;
+}
+
+.chart {
+  flex: 1.3;
+  margin-left: 12vh;
+  width: 84%;
+}
+
+.predictions {
+  flex: 1 1;
+  padding-right: 3vh;
+  margin-right: 35vh;
+  display: flex;
+  flex-direction: column;
+}
+
+img {
+  border: 3px solid rgb(242, 242, 242);
+  box-sizing: border-box;
+  margin-left: -44vh;
+}
+.spanDescription {
+  display: flex;
+  gap: 3vh;
+}
+
+#Location {
+  width: 53vh;
+  height: 4vh;
+  border: none;
+  border-radius: 0.6vh;
+  padding: 0.3vh;
+  margin-right: 47.1vh;
+}
+
+.actionButton {
+  color: rgb(72, 72, 74);
+  border: none;
+  background-color: white;
+}
+
+.after-action {
+  display: flex;
+  flex-direction: column;
+  width: 570px;
+}
+
+.scroller {
+  background-color: rgb(242, 242, 242);
+  height: 3vh;
+  gap: 0.1vh;
+  display: flex;
+  width: 50vh;
+}
+
+.scroller li {
+  cursor: pointer;
+}
+
+.scroller li.active {
+  font-weight: bold;
+}
+
+.scrollerDescription {
+  display: flex;
+  height: 10vh;
+}
+
+.details {
+  height: 5.2vh;
+  list-style: none;
+  line-height: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 320px;
+  padding-left: 16pt;
+  padding-right: 16pt;
+  margin-top: 0;
+  margin-bottom: 10px;
+  border-left: 2px solid rgb(235, 110, 115);
+  padding-left: 2vh;
+}
+
+.list-item {
+  margin-right: 16pt;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.timestamps{
+  width: 51vh;
+}
+
+.arrowColumn{
+  width: 7vh;
+  padding-bottom: 0.76vh;
+}
+.descriptionColumn{
+  width:1vh;
+  color: gray;
+  font-size: 1.2vh;
+  padding-bottom: 2.3vh;
+}
+
+.weather-icon-container svg{
+  height: 31px;
+  width: 3.5vh;
+}
