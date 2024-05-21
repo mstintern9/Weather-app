@@ -1,13 +1,13 @@
 import React from "react";
 import {
-    LineChart,
-    Line,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    ResponsiveContainer,
-  } from "recharts";
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 export default function Chart({ weatherData, filterTimestamps }) {
   return (
@@ -20,9 +20,9 @@ export default function Chart({ weatherData, filterTimestamps }) {
               dataKey="name"
               tick={({ x, y, payload }) => {
                 const { value } = payload;
-                const weatherDesc = filterTimestamps(weatherData.list).find(
-                  (item) => item.name === value
-                ).description;
+                const hour = parseInt(value.split(':')[0]);
+                const ampm = hour >= 12 ? 'PM' : 'AM';
+                const hour12 = hour % 12 || 12;
                 return (
                   <g transform={`translate(${x},${y})`}>
                     <text
@@ -33,17 +33,7 @@ export default function Chart({ weatherData, filterTimestamps }) {
                       fill="#666"
                       fontSize={10}
                     >
-                      {value}
-                    </text>
-                    <text
-                      x={0}
-                      y={16}
-                      dy={12}
-                      textAnchor="middle"
-                      fill="#666"
-                      fontSize={10}
-                    >
-                      {weatherDesc}
+                      {`${hour12} ${ampm}`}
                     </text>
                   </g>
                 );

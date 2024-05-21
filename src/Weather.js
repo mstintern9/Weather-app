@@ -6,39 +6,95 @@ import { format } from "date-fns";
 import Description from "./Description";
 import Chart from "./Chart";
 import Prediction from "./Prediction";
-
+import Cities from "./Cities";
 const Weather = () => {
   const [city, setCity] = useState("");
   const [weatherData, setWeatherData] = useState(null);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [selectedForecast, setSelectedForecast] = useState(null);
   const [activeIndex, setActiveIndex] = useState(null);
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+  const [currentCity, setCurrentCity] = useState(null);
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setLatitude(latitude);
+          setLongitude(longitude);
+          console.log(
+            "Location permission granted:",
+            position,
+            latitude,
+            longitude
+          );
+        },
+        (error) => {
+          console.error("Location permission denied:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser.");
+    }
+  }, []);
+
+  useEffect(() => {
+    const fetchReverseGeocodingData = async () => {
+      try {
+        if (latitude && longitude) {
+          const apiUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+          const response = await axios.get(apiUrl);
+          const address = response.data.address;
+
+          console.log("Reverse Geocoding Data:", address);
+          for (const key in address) {
+            if (address.hasOwnProperty(key)) {
+              const value = address[key].trim().toLowerCase();
+              const matchedCity = Cities.find((city) =>
+                value.includes(city.toLowerCase())
+              );
+
+              if (matchedCity) {
+                setCurrentCity(matchedCity);
+                return;
+              }
+            }
+          }
+          console.log("No city matched from CityOptions.");
+        }
+      } catch (error) {
+        console.error("Error fetching reverse geocoding data:", error);
+      }
+    };
+    fetchReverseGeocodingData();
+  }, [latitude, longitude]);
+
+  useEffect(() => {
+    if (currentCity) {
+      setCity(currentCity);
+    }
+  }, [currentCity]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=eed0d77cab34b0df8b50420675d0487a`
-        );
-        setWeatherData(response.data);
-        setCurrentDateTime(new Date());
-        if (
-          activeIndex &&
-          response.data &&
-          response.data.list &&
-          response.data.list.length > 0
-        ) {
-          const selected = response.data.list.find(
-            (forecast) => forecast.dt === activeIndex
+        if (city) {
+          const response = await axios.get(
+            `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=eed0d77cab34b0df8b50420675d0487a`
           );
-          setSelectedForecast(selected);
-        } else if (
-          response.data &&
-          response.data.list &&
-          response.data.list.length > 0
-        ) {
-          setSelectedForecast(response.data.list[0]);
-          setActiveIndex(response.data.list[0].dt);
+          setWeatherData(response.data);
+          setCurrentDateTime(new Date());
+          if (
+            !activeIndex &&
+            response.data &&
+            response.data.list &&
+            response.data.list.length > 0
+          ) {
+            setSelectedForecast(response.data.list[0]);
+            setActiveIndex(response.data.list[0].dt);
+          }
         }
       } catch (error) {
         console.error(error);
@@ -46,7 +102,16 @@ const Weather = () => {
     };
 
     fetchData();
-  }, [city, activeIndex]);
+  }, [city]);
+
+  useEffect(() => {
+    if (weatherData && activeIndex) {
+      const selected = weatherData.list.find(
+        (forecast) => forecast.dt === activeIndex
+      );
+      setSelectedForecast(selected);
+    }
+  }, [activeIndex, weatherData]);
 
   const getTemperatureForTime = (time) => {
     const data = weatherData.list.find((item) => {
@@ -69,7 +134,7 @@ const Weather = () => {
   const handleForecastSelection = (index, forecast) => {
     console.log("Clicked index:", index);
     setSelectedForecast(forecast);
-    setActiveIndex(index); // Update activeIndex when a forecast is selected in the scroller
+    setActiveIndex(index);
     console.log("Clicked id:", forecast.dt);
   };
 

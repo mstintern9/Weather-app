@@ -1,7 +1,7 @@
 import React from "react";
 import WeatherIcons from "./WeatherIcons";
 
-const Description = ({ currentDateTime, weatherData,getWeatherCondition }) => {
+const Description = ({ currentDateTime, weatherData, getWeatherCondition }) => {
   return (
     <div className="description">
       <p className="date">{currentDateTime.toLocaleString()}</p>
@@ -24,10 +24,7 @@ const Description = ({ currentDateTime, weatherData,getWeatherCondition }) => {
           marginTop: "-1.3vh",
         }}
       >
-        Feels like{" "}
-        {weatherData.list && weatherData.list.length > 0
-          ? weatherData.list[0].main.feels_like
-          : ""}
+        Feels like {Math.floor(weatherData.list[0].main.feels_like)}
         °C.
         {weatherData.list && weatherData.list.length > 0
           ? weatherData.list[0].weather[0].description
@@ -36,10 +33,10 @@ const Description = ({ currentDateTime, weatherData,getWeatherCondition }) => {
       <div className="descriptionBox">
         <span className="spanDescription">
           <p>Description: {weatherData.list[0].weather[0].description}</p>
-          <p>Temperature:{weatherData.list[0].main.temp}°C</p>
+          <p>Temperature:{ Math.floor( weatherData.list[0].main.temp)}°C</p>
         </span>
         <span className="spanDescription">
-          <p>Feels like: {weatherData.list[0].main.feels_like}°C</p>
+          <p>Feels like: {Math.floor(weatherData.list[0].main.feels_like)}°C</p>
           <p>Humidity: {weatherData.list[0].main.humidity}%</p>
         </span>
         <span className="spanDescription">
