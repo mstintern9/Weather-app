@@ -33,7 +33,7 @@ const Description = ({ currentDateTime, weatherData, getWeatherCondition }) => {
       <div className="descriptionBox">
         <span className="spanDescription">
           <p>Description: {weatherData.list[0].weather[0].description}</p>
-          <p>Temperature:{ Math.floor( weatherData.list[0].main.temp)}°C</p>
+          <p>Temperature:{Math.floor(weatherData.list[0].main.temp)}°C</p>
         </span>
         <span className="spanDescription">
           <p>Feels like: {Math.floor(weatherData.list[0].main.feels_like)}°C</p>

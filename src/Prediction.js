@@ -61,14 +61,17 @@ export default function Prediction({
         <table id="table">
           <tbody>
             {weatherData.list
-              .filter(
-                (forecast, index, self) =>
-                  index ===
-                  self.findIndex(
-                    (f) =>
-                      getDayAndDate(f.dt_txt) === getDayAndDate(forecast.dt_txt)
-                  )
-              )
+              .filter((forecast) => {
+                const forecastDate = new Date(forecast.dt_txt);
+                return forecastDate.getHours() === 12;
+              })
+              .reduce((acc, forecast) => {
+                const day = getDayAndDate(forecast.dt_txt);
+                if (!acc.some((item) => getDayAndDate(item.dt_txt) === day)) {
+                  acc.push(forecast);
+                }
+                return acc;
+              }, [])
               .slice(0, 5)
               .map((forecast) => (
                 <tr
@@ -85,7 +88,8 @@ export default function Prediction({
                         weatherCondition={getWeatherCondition(forecast)}
                       />
                     </div>
-                    {Math.floor(forecast.main.temp)}/{Math.floor(forecast.main.feels_like)}°C
+                    {Math.floor(forecast.main.temp)}/
+                    {Math.floor(forecast.main.feels_like)}°C
                   </td>
                   <td className="descriptionColumn">
                     {forecast.weather[0].description}
@@ -119,20 +123,32 @@ export default function Prediction({
         <div className="scroller">
           {weatherData && weatherData.list ? (
             weatherData.list
-              .filter(
-                (forecast, index, self) =>
-                  index ===
-                  self.findIndex(
-                    (f) =>
-                      getDayAndDate(f.dt_txt) === getDayAndDate(forecast.dt_txt)
-                  )
-              )
+              .filter((forecast) => {
+                const forecastDate = new Date(forecast.dt_txt);
+                return (
+                  forecastDate.getHours() === 12 ||
+                  (forecastDate.getDate() === new Date().getDate() &&
+                    forecastDate.getHours() >= new Date().getHours())
+                );
+              })
+              .reduce((acc, forecast) => {
+                const day = getDayAndDate(forecast.dt_txt);
+                if (!acc.some((item) => getDayAndDate(item.dt_txt) === day)) {
+                  acc.push(forecast);
+                }
+                return acc;
+              }, [])
               .slice(0, 5)
               .map((forecast) => (
                 <li
                   id={`scroller-item-${forecast.dt}`}
                   className={forecast.dt === activeIndex ? "active" : ""}
-                  style={{ width: "19vh", listStyleType: "none", fontSize:"1.4vh" ,paddingTop:"0.3vh" }}
+                  style={{
+                    width: "19vh",
+                    listStyleType: "none",
+                    fontSize: "1.4vh",
+                    paddingTop: "0.3vh",
+                  }}
                   key={forecast.dt}
                   onClick={() => handleForecastSelection(forecast.dt, forecast)}
                 >
