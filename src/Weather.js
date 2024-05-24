@@ -248,7 +248,7 @@ const Weather = () => {
                 <div className="map">
                   <img
                     style={{ height: 401, width: 833 }}
-                    src="https://i.dawn.com/primary/2014/04/5350e3ca8be2e.png"
+                    src="https://cxotoday.com/wp-content/uploads/2022/12/GoogleMaps.jpg"
                   />
                 </div>
               </div>
